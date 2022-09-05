@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="principal.FXMLController">
+   <children>
+      <Label fx:id="lbTeste" layoutX="128.0" layoutY="60.0" text="MEU HERÓI FUMA MACONHA POHA!" textFill="#d30c0c">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="175.0" layoutY="27.0" text="MEU HERÓI NÃO USA CAPA" textFill="#d30404">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnPalavra" layoutX="68.0" layoutY="175.0" mnemonicParsing="false" onAction="#InserirPalavra" text="Enviar" />
+      <TextField fx:id="textPalavra" layoutX="175.0" layoutY="175.0" prefHeight="25.0" prefWidth="290.0" />
+      <TextArea fx:id="textAreaPalavra" layoutX="68.0" layoutY="212.0" prefHeight="174.0" prefWidth="401.0" />
+      <Button fx:id="btnConectar" layoutX="68.0" layoutY="119.0" mnemonicParsing="false" onAction="#conectar" prefHeight="25.0" prefWidth="90.0" text="Conectar" />
+   </children>
+</AnchorPane>
