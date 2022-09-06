@@ -48,8 +48,6 @@ public class FXMLController implements Initializable {
     @FXML
     private void InserirPalavra(ActionEvent event) throws IOException {
 
-       
-
         if (textPalavra.getText().equals("")) {
             System.out.println("Campo está vazio: Digite algo");
         } else {
@@ -67,7 +65,7 @@ public class FXMLController implements Initializable {
         } catch (IOException ex) {
             System.out.println("Erro ao conectar com o Servidor! " + ex.getMessage());
         }
-        
+
     }
 
 }

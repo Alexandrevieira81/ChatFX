@@ -1,6 +1,5 @@
 package principal;
 
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -17,7 +16,6 @@ public class ClientSocket {
     public ClientSocket(Socket socket) throws IOException {
 
         this.socket = socket;
-        //System.out.println(" Cliente :"+socket.getRemoteSocketAddress()+ " : conectou");
         this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         this.out = new PrintWriter(socket.getOutputStream(), true);
     }
@@ -30,17 +28,24 @@ public class ClientSocket {
             return null;
         }
     }
-    
-    public boolean sendMsg(String msg){
-        
+
+    public boolean sendMsg(String msg) {
+
         out.println(msg);
         return !out.checkError();
     }
-    
-    public SocketAddress getRemoteSocketAddress(){
-    
+
+    public SocketAddress getRemoteSocketAddress() {
+
         return socket.getRemoteSocketAddress();
-    
+
+    }
+
+    public void closeInOut() throws IOException {
+
+        in.close();
+        out.close();
+        socket.close();
     }
 
     public Socket getSocket() {
@@ -54,6 +59,5 @@ public class ClientSocket {
     public PrintWriter getOut() {
         return out;
     }
-    
 
 }
