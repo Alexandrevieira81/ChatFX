@@ -7,11 +7,12 @@ package principal;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
@@ -22,17 +23,20 @@ import javafx.scene.control.TextField;
  */
 public class FXMLController implements Initializable {
 
-    @FXML
-    private Label lbTeste;
-    @FXML
-    private Button btnPalavra;
-    @FXML
-    private TextField textPalavra;
-    @FXML
-    private TextArea textAreaPalavra;
+    //private TextField textPalavra;
+    //private TextArea textAreaPalavra;
     @FXML
     private Button btnConectar;
     ChatClient cliente;
+    @FXML
+    private Button btnEnviar;
+    @FXML
+    private Button btnDesconectar;
+    @FXML
+    private TextArea textAreaChat;
+    @FXML
+    private TextField textFieldMensagem;
+    ClientSocket clientSocket;
 
     /**
      * Initializes the controller class.
@@ -43,27 +47,71 @@ public class FXMLController implements Initializable {
         cliente = new ChatClient();
 
     }
+
     // TODO
-
-    @FXML
-    private void InserirPalavra(ActionEvent event) throws IOException {
-
-        if (textPalavra.getText().equals("")) {
-            System.out.println("Campo está vazio: Digite algo");
-        } else {
-            textAreaPalavra.appendText(textPalavra.getText() + "\n");
-            cliente.messageLoop(textPalavra.getText());
-        }
-    }
-
     @FXML
     private void conectar(ActionEvent event) {
 
         try {
-
-            cliente.start();
+            clientSocket = cliente.start();
+            new Thread(() -> clientMessageReturnLoop()).start();
+            btnEnviar.setDisable(false);
+            btnDesconectar.setDisable(false);
         } catch (IOException ex) {
-            System.out.println("Erro ao conectar com o Servidor! " + ex.getMessage());
+            System.out.println("Servidor Encontra-se Offline!");
+        }
+
+    }
+
+    @FXML
+    private void desconectarChat(ActionEvent event) {
+
+        try {
+            cliente.messageLoop("sair#$%");
+            btnEnviar.setDisable(true);
+            btnDesconectar.setDisable(true);
+        } catch (IOException ex) {
+            System.out.println("Problemas ao Encerrar Conexão");
+        }
+    }
+
+    @FXML
+    private void enviarMensagem(ActionEvent event) throws IOException {
+
+        if (textFieldMensagem.getText().equals("")) {
+            System.out.println("Campo está vazio: Digite algo");
+        } else {
+            textAreaChat.getStyleClass().add("textArea-textAreaChat-envio");
+            textAreaChat.appendText("EU: "+textFieldMensagem.getText() + "\n");
+            cliente.messageLoop(textFieldMensagem.getText());
+        }
+    }
+
+    public void clientMessageReturnLoop() {
+
+        String msg;
+
+        while ((msg = clientSocket.getMessage()) != null) {//pega um interrupção de conexão do servidor, Ex: Queda
+            if (msg.equalsIgnoreCase("Desconectado!")) { //Desconecta pela solicitação do usuário
+                break;
+            }
+            try {
+                Thread.sleep(300);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            textAreaChat.getStyleClass().add("textArea-textAreaChat-retorno");
+            textAreaChat.appendText(msg + "\n");
+
+        }
+
+        try {
+            clientSocket.closeInOut();//função fecha o Socket
+            System.out.println("Desconectado do Servidor");
+
+        } catch (IOException ex) {
+            System.out.println("Problemas ao encerrar conexão");
         }
 
     }

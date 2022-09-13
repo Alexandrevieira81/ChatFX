@@ -23,7 +23,7 @@ public class Chat extends Application {
         Parent parent= FXMLLoader.load(getClass().getClassLoader().getResource("principal/FXML.fxml"));
         Scene scene = new Scene(parent);
         primaryStage.setScene(scene);
-        primaryStage.setTitle("CHAT DE MERDA!");
+        primaryStage.setTitle("CHAT SISTEMAS DISTRIBUÍDOS!");
         primaryStage.show();
     }
 

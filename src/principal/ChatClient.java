@@ -1,11 +1,7 @@
 package principal;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -20,30 +16,29 @@ public class ChatClient {
     /**
      * @param args the command line arguments
      */
-    private static final String SERVER_ADDRESS = "ssh.chauchuty.cf";
+    // servidor remoto ssh.chauchuty.cf
+    private static final String SERVER_ADDRESS = "127.0.0.1";
     private ClientSocket clientSocket;
 
     public ChatClient() {
 
     }
 
-    public void start() throws IOException {
+    public ClientSocket start() throws IOException {
 
-        try {
-            
-            clientSocket = new ClientSocket(
-                    new Socket(SERVER_ADDRESS, 8089));
-            System.out.println(clientSocket.getMessage());
+        clientSocket = new ClientSocket(
+                new Socket(SERVER_ADDRESS, 8089));
+        System.out.println(clientSocket.getMessage());
 
-            //Mesmo abrindo Thread aqui em cima o uso de memória aumenta, o gasto
-            // não está relacionado a abertura de várias Threads
-            new Thread(() -> clientMessageReturnLoop(clientSocket)).start();
-
-        } catch (IOException ex) {
-            Logger.getLogger(ChatClient.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+        //Mesmo abrindo Thread aqui em cima o uso de memória aumenta, o gasto
+        // não está relacionado a abertura de várias Threads
+        // new Thread(() -> clientMessageReturnLoop(clientSocket)).start(); 
+        /*THREAD ESTÁ OPERANDO NO CONTROLLER, O MÉTODO clientMessageReturnLoop 
+             NÃO ESTÁ SENDO USADO NESSA CLASSE
+           
+         */
         // messageLoop();
+        return clientSocket;
     }
 
     public void messageLoop(String msg) throws IOException {
@@ -52,24 +47,27 @@ public class ChatClient {
 
     }
 
-    public void clientMessageReturnLoop(ClientSocket clientSocket) {
+    /* public void clientMessageReturnLoop(ClientSocket clientSocket) {
 
         String msg;
 
-        while ((msg = clientSocket.getMessage()) != null) {
-            if (msg.equalsIgnoreCase("Desconectado!")) {
+        while ((msg = clientSocket.getMessage()) != null) {//pega um interrupção de conexão do servidor, Ex: Queda
+            if (msg.equalsIgnoreCase("Desconectado!"))  { //Desconecta pela solicitação do usuário
                 break;
             }
             System.out.println(msg);
-
+           
         }
-        System.out.println(msg);
+        
         try {
             clientSocket.closeInOut();//função fecha o Socket
+            System.out.println("Desconectado do Servidor");
+            
+          
         } catch (IOException ex) {
-            Logger.getLogger(ChatClient.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Problemas ao encerrar conexão");
         }
 
     }
-
+     */
 }
