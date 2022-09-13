@@ -29,6 +29,7 @@ public class ChatClient {
         clientSocket = new ClientSocket(
                 new Socket(SERVER_ADDRESS, 8089));
         System.out.println(clientSocket.getMessage());
+       
 
         //Mesmo abrindo Thread aqui em cima o uso de memória aumenta, o gasto
         // não está relacionado a abertura de várias Threads

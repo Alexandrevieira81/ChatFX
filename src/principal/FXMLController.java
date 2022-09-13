@@ -6,7 +6,6 @@ package principal;
 
 import java.io.IOException;
 import java.net.URL;
-import static java.time.LocalDate.now;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
@@ -40,6 +39,8 @@ public class FXMLController implements Initializable {
     @FXML
     private TextField textFieldMensagem;
     ClientSocket clientSocket;
+    @FXML
+    private TextField textUsuario;
 
     /**
      * Initializes the controller class.
@@ -53,16 +54,19 @@ public class FXMLController implements Initializable {
 
     // TODO
     @FXML
-    private void conectar(ActionEvent event) {
+    private void conectar(ActionEvent event) throws IOException {
 
         try {
             clientSocket = cliente.start();
             new Thread(() -> clientMessageReturnLoop()).start();
+         
             btnEnviar.setDisable(false);
             btnDesconectar.setDisable(false);
         } catch (IOException ex) {
             System.out.println("Servidor Encontra-se Offline!");
         }
+           cliente.messageLoop(textUsuario.getText());// Envia uma mensagem no momento da conexão para identificar o
+                                                     //Cliente
 
     }
 
@@ -85,7 +89,7 @@ public class FXMLController implements Initializable {
             System.out.println("Campo está vazio: Digite algo");
         } else {
             textAreaChat.getStyleClass().add("textArea-textAreaChat-envio");
-            textAreaChat.appendText("[ "+LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))+" ]"+" EU: "+textFieldMensagem.getText() + "\n");
+            textAreaChat.appendText("[ " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + " ]" + " EU: " + textFieldMensagem.getText() + "\n");
             cliente.messageLoop(textFieldMensagem.getText());
         }
     }
