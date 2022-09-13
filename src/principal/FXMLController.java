@@ -6,6 +6,9 @@ package principal;
 
 import java.io.IOException;
 import java.net.URL;
+import static java.time.LocalDate.now;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -82,7 +85,7 @@ public class FXMLController implements Initializable {
             System.out.println("Campo está vazio: Digite algo");
         } else {
             textAreaChat.getStyleClass().add("textArea-textAreaChat-envio");
-            textAreaChat.appendText("EU: "+textFieldMensagem.getText() + "\n");
+            textAreaChat.appendText("[ "+LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))+" ]"+" EU: "+textFieldMensagem.getText() + "\n");
             cliente.messageLoop(textFieldMensagem.getText());
         }
     }

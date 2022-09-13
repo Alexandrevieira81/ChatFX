@@ -6,24 +6,31 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     Created on : 12 de set. de 2022, 20:06:42
     Author     : MASTER
 */
+.vboxMessages{
 
+    -fx-background-color:blueviolet;
+    -fx-border-style:solid inside;
+    -fx-border-width:2;
+
+
+}
 .textArea-textAreaChat-retorno .text
 {
-  
-  
+
+
     -fx-text-fill: blue;
     -fx-text-alignment:right;
- 
+
 
 
 }
 .textArea-textAreaChat-envio .text
 {
-    
-    
+
+
     -fx-text-fill: red;
     -fx-text-alignment:left;
-   
+
 
 
 }
