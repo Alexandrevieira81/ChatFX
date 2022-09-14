@@ -62,11 +62,12 @@ public class FXMLController implements Initializable {
          
             btnEnviar.setDisable(false);
             btnDesconectar.setDisable(false);
+            btnConectar.setDisable(true);
         } catch (IOException ex) {
             System.out.println("Servidor Encontra-se Offline!");
         }
-           cliente.messageLoop(textUsuario.getText());// Envia uma mensagem no momento da conexão para identificar o
-                                                     //Cliente
+           cliente.messageLoop("{\"nome\":\""+textUsuario.getText()+"\"}");
+          // Envia uma mensagem no momento da conexão para identificar o Cliente
 
     }
 
@@ -77,6 +78,7 @@ public class FXMLController implements Initializable {
             cliente.messageLoop("sair#$%");
             btnEnviar.setDisable(true);
             btnDesconectar.setDisable(true);
+            btnConectar.setDisable(false);
         } catch (IOException ex) {
             System.out.println("Problemas ao Encerrar Conexão");
         }
